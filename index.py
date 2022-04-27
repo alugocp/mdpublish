@@ -8,11 +8,8 @@ def get_files(target):
     while len(dirs) > 0:
         test = dirs.pop(0)
         if os.path.isdir(test):
-            dirs += list(
-                filter(lambda x: ".md" in x,
-                    map(lambda x: f'{test}/{x}',
-                        os.listdir(test))))
-        else:
+            dirs += list(map(lambda x: f'{test}/{x}', os.listdir(test)))
+        elif ".md" in test:
             files.append(test)
     return files
 

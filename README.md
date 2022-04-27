@@ -6,7 +6,7 @@ Use it for easily publishing your digital journals or project ideas.
 ### Basic Start Point
 - [x] Make sure you can convert a markdown file to HTML
 - [x] Add support for recursive file directories
-- [ ] Make sure links work as expected
+- [x] Make sure links work as expected
 - [ ] Structure the tool as a simple CLI with I/O directory args
 
 ### Cleaning It Up
