@@ -1,14 +1,35 @@
 from markdown_it import MarkdownIt
+import os
+
+# This function recursively grabs markdown files
+def get_files(target):
+    files = []
+    dirs = [target]
+    while len(dirs) > 0:
+        test = dirs.pop(0)
+        if os.path.isdir(test):
+            dirs += list(
+                filter(lambda x: ".md" in x,
+                    map(lambda x: f'{test}/{x}',
+                        os.listdir(test))))
+        else:
+            files.append(test)
+    return files
+
+# Initializes script variables
+targets = get_files("test")
 md = MarkdownIt()
 
-# Find files to render
-file = open("test.md", "r")
-content = file.read()
-file.close()
-html = md.render(content)
-print(html)
+# Run conversion loop
+for src in targets:
+    # Read input file
+    file = open(src, "r")
+    content = file.read()
+    html = md.render(content)
+    file.close()
 
-out = open("tets.html", "w")
-out.write(html)
-out.flush()
-out.close()
+    # Write output file
+    out = open(src.replace(".md", ".html"), "w")
+    out.write(html)
+    out.flush()
+    out.close()
