@@ -1,4 +1,5 @@
 from markdown_it import MarkdownIt
+import sys
 import os
 
 # This function recursively grabs markdown files
@@ -13,8 +14,13 @@ def get_files(target):
             files.append(test)
     return files
 
+# Validate arguments
+if len(sys.argv) < 3:
+    print('Usage: tool src dst')
+    sys.exit(1)
+
 # Initializes script variables
-targets = get_files("test")
+targets = get_files(sys.argv[1])
 md = MarkdownIt()
 
 # Run conversion loop
@@ -26,7 +32,12 @@ for src in targets:
     file.close()
 
     # Write output file
-    out = open(src.replace(".md", ".html"), "w")
+    outpath = (src
+        .replace(sys.argv[1], sys.argv[2])
+        .replace(".md", ".html"))
+    parent = "/".join(outpath.split("/")[:-1])
+    os.makedirs(parent, exist_ok = True)
+    out = open(outpath, "w")
     out.write(html)
     out.flush()
     out.close()

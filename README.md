@@ -7,7 +7,7 @@ Use it for easily publishing your digital journals or project ideas.
 - [x] Make sure you can convert a markdown file to HTML
 - [x] Add support for recursive file directories
 - [x] Make sure links work as expected
-- [ ] Structure the tool as a simple CLI with I/O directory args
+- [x] Structure the tool as a simple CLI with I/O directory args
 
 ### Cleaning It Up
 - [ ] Restructure the code to feel better and be more organized/robust
