@@ -1,15 +1,15 @@
-# Publisher
-This is a small tool to render markdown files into websites that can be hosted online.
+# Markdown Publisher
+This is a small tool to render markdown (`.md`) files into websites that can be hosted online.
 Use it for easily publishing your digital journals or project ideas.
 
 ## Todo
-### Basic Start Point
+### Basic start point
 - [x] Make sure you can convert a markdown file to HTML
 - [x] Add support for recursive file directories
 - [x] Make sure links work as expected
 - [x] Structure the tool as a simple CLI with I/O directory args
 
-### Cleaning It Up
+### Flesh everything out
 - [ ] Restructure the code to feel better and be more organized/robust
 - [ ] Add a linter to the project
 - [ ] Validate arguments and all paths with regex
@@ -17,6 +17,8 @@ Use it for easily publishing your digital journals or project ideas.
 - [ ] Read `.gitignore` files and ignore the paths within
 - [ ] Allow the tool to apply a stylesheet to the generated sites
 - [ ] Add a configuration file (`yaml`) to help with fine details
+  - Define the main markdown file
+  - Set stylesheet path
+- [ ] Add a command to generate default config file
+- [ ] Write a few unit tests
 - [ ] Test the installation and add info here
-
-## Notes
