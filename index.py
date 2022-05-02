@@ -9,17 +9,15 @@ def get_files(target):
     while len(dirs) > 0:
         test = dirs.pop(0)
         if os.path.isdir(test):
-            dirs += list(map(lambda x: f'{test}/{x}', os.listdir(test)))
+            dirs += list(map(lambda x: os.path.join(test, x), os.listdir(test)))
         elif ".md" in test:
             files.append(test)
     return files
 
-# Validate arguments
+# Validate arguments then initialize variables
 if len(sys.argv) < 3:
     print('Usage: tool src dst')
     sys.exit(1)
-
-# Initializes script variables
 targets = get_files(sys.argv[1])
 md = MarkdownIt()
 
@@ -35,7 +33,7 @@ for src in targets:
     outpath = (src
         .replace(sys.argv[1], sys.argv[2])
         .replace(".md", ".html"))
-    parent = "/".join(outpath.split("/")[:-1])
+    parent = os.path.dirname(outpath)
     os.makedirs(parent, exist_ok = True)
     out = open(outpath, "w")
     out.write(html)

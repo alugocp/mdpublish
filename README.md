@@ -10,7 +10,7 @@ Use it for easily publishing your digital journals or project ideas.
 - [x] Structure the tool as a simple CLI with I/O directory args
 
 ### Flesh everything out
-- [ ] Restructure the code to feel better and be more organized/robust
+- [x] Restructure the code to feel better and be more organized/robust
 - [ ] Add a linter to the project
 - [ ] Validate arguments and all paths with regex
 - [ ] Throw some logging in there
