@@ -2,6 +2,10 @@
 This is a small tool to render markdown (`.md`) files into websites that can be hosted online.
 Use it for easily publishing your digital journals or project ideas.
 
+## Development
+- `python index.py` - runs the tool
+- `pylint index.py` - lints the code
+
 ## Todo
 ### Basic start point
 - [x] Make sure you can convert a markdown file to HTML
@@ -11,7 +15,7 @@ Use it for easily publishing your digital journals or project ideas.
 
 ### Flesh everything out
 - [x] Restructure the code to feel better and be more organized/robust
-- [ ] Add a linter to the project
+- [x] Add a linter to the project
 - [ ] Validate arguments and all paths with regex
 - [ ] Throw some logging in there
 - [ ] Read `.gitignore` files and ignore the paths within
