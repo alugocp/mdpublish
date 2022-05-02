@@ -3,8 +3,9 @@ This is a small tool to render markdown (`.md`) files into websites that can be 
 Use it for easily publishing your digital journals or project ideas.
 
 ## Development
-- `python index.py` - runs the tool
-- `pylint index.py` - lints the code
+- `python index.py` - Runs the tool
+- `pylint index.py` - Lints the code
+- `pip install -r requirements.txt` - Install dependencies
 
 ## Todo
 ### Basic start point
@@ -18,11 +19,7 @@ Use it for easily publishing your digital journals or project ideas.
 - [x] Add a linter to the project
 - [x] Validate arguments and all paths with regex
 - [x] Throw some logging in there
-- [ ] Read `.gitignore` files and ignore the paths within
+- [x] Read `.gitignore` files and ignore the paths within
 - [ ] Allow the tool to apply a stylesheet to the generated sites
-- [ ] Add a configuration file (`yaml`) to help with fine details
-  - Define the main markdown file
-  - Set stylesheet path
-- [ ] Add a command to generate default config file
 - [ ] Write a few unit tests
 - [ ] Test the installation and add info here

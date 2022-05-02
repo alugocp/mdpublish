@@ -1,2 +1,3 @@
+gitignore_parser
 markdown-it-py
 pylint

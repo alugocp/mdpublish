@@ -5,20 +5,32 @@ import re
 import os
 import sys
 from markdown_it import MarkdownIt
+from gitignore_parser import parse_gitignore
 PATH_REGEX = '(\.|\.\.|[\w\s\d])(/[\w\s\d])*'
 
 def get_files(target):
     """
-    This function recursively grabs markdown files
+    This function recursively grabs markdown files,
+    except for those matched by .gitignore files
     """
     files = []
     dirs = [target]
+    gitignores = {}
     while len(dirs) > 0:
-        test = dirs.pop(0)
-        if os.path.isdir(test):
-            dirs += list(map(lambda x: os.path.join(test, x), os.listdir(test)))
-        elif re.search('\.md$', test):
-            files.append(test)
+        path = dirs.pop(0)
+        if os.path.isdir(path):
+            children = os.listdir(path)
+            if '.gitignore' in children:
+                gitignores[path] = parse_gitignore(os.path.join(path, '.gitignore'))
+            dirs += list(map(lambda x: os.path.join(path, x), children))
+        elif re.search('\.md$', path):
+            ignore = False
+            for dir, matches in gitignores.items():
+                if re.search(f'^{dir}', path) and matches(path):
+                    ignore = True
+                    break
+            if not ignore:
+                files.append(path)
     return files
 
 # Validate arguments then initialize variables
@@ -30,7 +42,8 @@ if not (src and dst and re.search(PATH_REGEX, src) and re.search(PATH_REGEX, dst
     print('  src and dst should be project paths')
     sys.exit(1)
 targets = get_files(sys.argv[1])
-print(f'Found {len(targets)} markdown files to convert')
+word = 'file' if len(targets) == 1 else 'files'
+print(f'Found {len(targets)} markdown {word} to convert')
 md = MarkdownIt()
 
 # Run conversion loop
