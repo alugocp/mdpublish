@@ -20,6 +20,7 @@ Use it for easily publishing your digital journals or project ideas.
 - [x] Validate arguments and all paths with regex
 - [x] Throw some logging in there
 - [x] Read `.gitignore` files and ignore the paths within
-- [ ] Allow the tool to apply a stylesheet to the generated sites
+- [x] Allow the tool to apply a stylesheet to the generated sites
 - [ ] Write a few unit tests
-- [ ] Test the installation and add info here
+- [ ] Test installation and add info here
+- [ ] Add some built-in stylesheets, and make sure generated sites are stylized

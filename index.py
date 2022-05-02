@@ -4,6 +4,7 @@ This tool converts a markdown project into a website that can be easily publishe
 import re
 import os
 import sys
+import shutil
 from markdown_it import MarkdownIt
 from gitignore_parser import parse_gitignore
 PATH_REGEX = '(\.|\.\.|[\w\s\d])(/[\w\s\d])*'
@@ -37,24 +38,30 @@ def get_files(target):
 l = len(sys.argv)
 src = sys.argv[1] if l > 1 else None
 dst = sys.argv[2] if l > 2 else None
+style = sys.argv[3] if l > 3 else None
 if not (src and dst and re.search(PATH_REGEX, src) and re.search(PATH_REGEX, dst)):
-    print('Usage: tool <src> <dst>')
+    print('Usage: tool <src> <dst> [stylesheet]')
     print('  src and dst should be project paths')
     sys.exit(1)
-targets = get_files(sys.argv[1])
+targets = get_files(src)
 word = 'file' if len(targets) == 1 else 'files'
 print(f'Found {len(targets)} markdown {word} to convert')
 md = MarkdownIt()
 
+# Copy over stylesheet (if any)
+if style:
+    os.makedirs(dst, exist_ok = True)
+    outpath = f'{dst}/style.css'
+    if os.path.exists(style):
+        shutil.copyfile(style, outpath)
+        print(f'Stylized after {style}')
+
 # Run conversion loop
 for file in targets:
-    # Read input file
     with open(file, 'r', encoding = 'utf8') as markdown:
         html = md.render(markdown.read())
-
-    # Create and write output file
     outpath = re.sub('\.md$', '.html', file)
-    outpath = re.sub(f'^{sys.argv[1]}', sys.argv[2], outpath)
+    outpath = re.sub(f'^{src}', dst, outpath)
     print(f'Converted {file} -> {outpath}')
     parent = os.path.dirname(outpath)
     os.makedirs(parent, exist_ok = True)
