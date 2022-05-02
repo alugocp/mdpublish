@@ -26,8 +26,8 @@ def get_files(target):
             dirs += list(map(lambda x: os.path.join(path, x), children))
         elif re.search('\.md$', path):
             ignore = False
-            for dir, matches in gitignores.items():
-                if re.search(f'^{dir}', path) and matches(path):
+            for folder, matches in gitignores.items():
+                if re.search(f'^{folder}', path) and matches(path):
                     ignore = True
                     break
             if not ignore:

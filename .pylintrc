@@ -1,0 +1,4 @@
+[MASTER]
+disable=
+  anomalous-backslash-in-string,
+  invalid-name
