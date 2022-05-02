@@ -16,7 +16,7 @@ Use it for easily publishing your digital journals or project ideas.
 ### Flesh everything out
 - [x] Restructure the code to feel better and be more organized/robust
 - [x] Add a linter to the project
-- [ ] Validate arguments and all paths with regex
+- [x] Validate arguments and all paths with regex
 - [ ] Throw some logging in there
 - [ ] Read `.gitignore` files and ignore the paths within
 - [ ] Allow the tool to apply a stylesheet to the generated sites
