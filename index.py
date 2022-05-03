@@ -7,9 +7,18 @@ import os
 import sys
 import shutil
 from typing import List
+from jinja2 import Template
 from markdown_it import MarkdownIt
 from gitignore_parser import parse_gitignore
 PATH_REGEX = '(\.|\.\.|[\w\s\d])(/[\w\s\d])*'
+
+builtin_styles = {
+    'orange': {
+        'background': '#ffa500',
+        'main': '#ffffff',
+        'text': '#000000'
+    }
+}
 
 def log(msg):
     """
@@ -47,18 +56,21 @@ def main(args: List[str]) -> int:
     This is the tool's main function. It holds the logic
     for converting markdown files into a website.
     """
-    l = len(args)
-    src = args[1] if l > 1 else None
-    dst = args[2] if l > 2 else None
-    style = args[3] if l > 3 else None
+    src = args[1] if len(args) > 1 else None
+    dst = args[2] if len(args) > 2 else None
+    style = args[3] if len(args) > 3 else None
     if not (src and dst and re.search(PATH_REGEX, src) and re.search(PATH_REGEX, dst)):
         log('Usage: tool <src> <dst> [stylesheet]')
         log('  src and dst should be project paths')
         return 1
-    targets = get_files(src)
-    word = 'file' if len(targets) == 1 else 'files'
-    log(f'Found {len(targets)} markdown {word} to convert')
     md = MarkdownIt()
+    targets = get_files(src)
+    log('Found 1 markdown file to convert' if len(targets) == 1 else
+        f'Found {len(targets)} markdown files to convert')
+    with open('page.html', 'r', encoding = 'utf8') as file:
+        html_template = Template(file.read())
+    with open('style.css', 'r', encoding = 'utf8') as file:
+        css_template = Template(file.read())
 
     # Copy over stylesheet (if any)
     if style:
@@ -67,11 +79,24 @@ def main(args: List[str]) -> int:
         if os.path.exists(style):
             shutil.copyfile(style, outpath)
             log(f'Stylized after {style}')
+        elif style in builtin_styles:
+            with open(outpath, 'w', encoding = 'utf8') as file:
+                css = css_template.render(style = builtin_styles[style])
+                file.write(css)
+                file.flush()
+            log(f'Using style \'{style}\'')
+        else:
+            log(f'Unknown style \'{style}\'')
+            return 1
 
     # Run conversion loop
     for file in targets:
         with open(file, 'r', encoding = 'utf8') as markdown:
-            html = md.render(markdown.read())
+            body = md.render(markdown.read())
+            root = '/'.join(file[len(src):].split('/')[:-1])
+            if root == "":
+                root = "."
+            html = html_template.render(body = body, style = style, root = root)
         outpath = re.sub('\.md$', '.html', file)
         outpath = re.sub(f'^{src}', dst, outpath)
         log(f'Converted {file} -> {outpath}')

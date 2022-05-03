@@ -24,4 +24,3 @@ Use it for easily publishing your digital journals or project ideas.
 - [x] Allow the tool to apply a stylesheet to the generated sites
 - [x] Write a few unit tests
 - [ ] Test installation and add info here
-- [ ] Add some built-in stylesheets, and make sure generated sites are stylized
