@@ -22,5 +22,6 @@ Use it for easily publishing your digital journals or project ideas.
 - [x] Throw some logging in there
 - [x] Read `.gitignore` files and ignore the paths within
 - [x] Allow the tool to apply a stylesheet to the generated sites
-- [x] Write a few unit tests
-- [ ] Test installation and add info here
+- [ ] Write a few unit tests
+- [ ] Use the tool and finalize style template
+- [ ] Test installation and finalize this README file

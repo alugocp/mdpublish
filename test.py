@@ -45,5 +45,15 @@ class TestArgs(unittest.TestCase):
         self.assertEqual(len(log), 1)
         self.assertEqual(log[0], 'Found 0 markdown files to convert')
 
+# TestStyle
+# Test builtin style
+# Test provided style file
+# Test error with nonexistent style file
+
+# TestProject
+# Test recursive folders
+# Test tool where src is same name as a file (make sure the file name is unchanged)
+# Test tool from . to .
+
 if __name__ == '__main__':
     unittest.main()
