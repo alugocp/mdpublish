@@ -4,7 +4,8 @@ Use it for easily publishing your digital journals or project ideas.
 
 ## Development
 - `python index.py` - Runs the tool
-- `pylint index.py` - Lints the code
+- `python test.py` - Runs unit tests
+- `pylint ./*.py` - Lints the code
 - `pip install -r requirements.txt` - Install dependencies
 
 ## Todo
@@ -21,6 +22,6 @@ Use it for easily publishing your digital journals or project ideas.
 - [x] Throw some logging in there
 - [x] Read `.gitignore` files and ignore the paths within
 - [x] Allow the tool to apply a stylesheet to the generated sites
-- [ ] Write a few unit tests
+- [x] Write a few unit tests
 - [ ] Test installation and add info here
 - [ ] Add some built-in stylesheets, and make sure generated sites are stylized
