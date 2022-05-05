@@ -30,8 +30,8 @@ def get_files(target: str) -> List[str]:
     gitignores = {}
     while len(dirs) > 0:
         path = dirs.pop(0)
-        if os.path.isdir(path):
-            children = os.listdir(path)
+        if is_dir(path):
+            children = list_dir(path)
             if '.gitignore' in children:
                 gitignores[path] = parse_gitignore(os.path.join(path, '.gitignore'))
             dirs += list(map(lambda x: os.path.join(path, x), children))
@@ -45,14 +45,26 @@ def get_files(target: str) -> List[str]:
                 files.append(path)
     return files
 
-def read_file(filepath):
+def list_dir(path: str) -> List[str]:
+    """
+    Returns a list of files in the given directory
+    """
+    return os.listdir(path)
+
+def is_dir(path: str) -> bool:
+    """
+    Returns tue if the given path is a directory
+    """
+    return os.path.isdir(path)
+
+def read_file(filepath: str) -> str:
     """
     Reads the contents of a file
     """
     with open(filepath, 'r', encoding = 'utf8') as file:
         return file.read()
 
-def write_file(filepath, body):
+def write_file(filepath: str, body: str) -> None:
     """
     Writes some content to a file
     """
@@ -60,13 +72,13 @@ def write_file(filepath, body):
         file.write(body)
         file.flush()
 
-def log(msg):
+def log(msg: str) -> None:
     """
     This function logs the tool's progress
     """
     print(msg)
 
-def print_help():
+def print_help() -> None:
     """
     This function prints tool usage info
     """
@@ -110,8 +122,8 @@ def main(args: List[str]) -> int:
     for file in targets:
         body = md.render(read_file(file))
         root = '/'.join(file[len(src):].split('/')[:-1])
-        if root == "":
-            root = "."
+        if root == '':
+            root = '.'
         html = html_template.render(body = body, style = style, root = root)
         outpath = re.sub('\.md$', '.html', file)
         outpath = re.sub(f'^{src}', dst, outpath)
