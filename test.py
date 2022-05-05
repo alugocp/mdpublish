@@ -2,17 +2,17 @@
 This file contains test coverage for the tool
 """
 from typing import List
+import publisher
 import unittest
-import index
 log = []
-index.log = log.append
+publisher.log = log.append
 
 def convert(args: List[str]) -> int:
     """
     This function mocks the tool being run from the terminal
     """
     log.clear()
-    return index.main(args)
+    return publisher.main(args)
 
 class TestArgs(unittest.TestCase):
     """

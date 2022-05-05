@@ -120,6 +120,3 @@ def main(args: List[str]) -> int:
         os.makedirs(parent, exist_ok = True)
         write_file(outpath, html)
     return 0
-
-if __name__ == '__main__':
-    sys.exit(main(sys.argv))
