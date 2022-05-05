@@ -12,19 +12,54 @@ from gitignore_parser import parse_gitignore
 PATH_REGEX = '(\.|\.\.|[\w\s\d])(/[\w\s\d])*'
 
 builtin_styles = {
-    'default': {
+    'charcoal': {
+        'summary': 'a simple, sleek color palette',
         'main': '#323232',
         'background': '#f5f5f5',
         'text': '#323232',
-        'link': '#0079ff',
-        'hover': '#4494ec'
+        'link': '#0079ff'
     },
-    'orange': {
+    'tangerine': {
+        'summary': 'similar to charcoal but with warmer colors',
         'main': '#e79500',
         'background': '#f5f5f5',
+        'text': '#423f3a',
+        'link': '#e79500'
+    },
+    'pine': {
+        'summary': 'charcoal but in greens',
+        'main': '#1e5e22',
+        'background': '#e8e8e8',
         'text': '#323232',
-        'link': '#e79500',
-        'hover': '#ffb630'
+        'link': '#37943e'
+    },
+    'dusk': {
+        'summary': 'a basic dark mode palette',
+        'main': '#82aaed',
+        'background': '#343434',
+        'text': '#e3e3e3',
+        'link': '#82aaed'
+    },
+    'midnight': {
+        'summary': 'the darker version of dusk',
+        'main': '#5293d9',
+        'background': '#1a1a1a',
+        'text': '#cccccc',
+        'link': '#82aaed'
+    },
+    'dolphin': {
+        'summary': 'just a fun blue palette',
+        'main': '#f3f3f3',
+        'background': '#435e8a',
+        'text': '#f3f3f3',
+        'link': '#ade1ff'
+    },
+    'navy': {
+        'summary': 'like a darker dolphin',
+        'main': '#b3d0e6',
+        'background': '#1f3240',
+        'text': '#e3e3e3',
+        'link': '#a9c0d1'
     }
 }
 
@@ -65,6 +100,12 @@ def is_dir(path: str) -> bool:
     """
     return os.path.isdir(path)
 
+def make_dir(path: str) -> None:
+    """
+    Creates a directory somewhere for the generated files
+    """
+    os.makedirs(path, exist_ok = True)
+
 def read_file(filepath: str) -> str:
     """
     Reads the contents of a file
@@ -93,8 +134,9 @@ def print_help() -> None:
     log('Usage: tool <src> <dst> [stylesheet]')
     log('  src and dst should be project paths')
     log('  stylesheets:')
-    for style in builtin_styles:
-        log(f'  - {style}')
+    for style, details in builtin_styles.items():
+        summary = details['summary']
+        log(f'    - {style} ({summary})')
 
 def main(args: List[str]) -> int:
     """
@@ -103,7 +145,7 @@ def main(args: List[str]) -> int:
     """
     src = args[1] if len(args) > 1 else None
     dst = args[2] if len(args) > 2 else None
-    style = args[3] if len(args) > 3 else 'default'
+    style = args[3] if len(args) > 3 else 'charcoal'
     if not (src and dst and re.search(PATH_REGEX, src) and re.search(PATH_REGEX, dst)):
         print_help()
         return 1
@@ -116,7 +158,7 @@ def main(args: List[str]) -> int:
     css_template = Template(read_file(relative('templates/style.css')))
 
     # Add the stylesheet
-    os.makedirs(dst, exist_ok = True)
+    make_dir(dst)
     outpath = f'{dst}/style.css'
     if os.path.exists(style):
         shutil.copyfile(style, outpath)
@@ -143,6 +185,6 @@ def main(args: List[str]) -> int:
         outpath = re.sub(f'^{src}', dst, outpath)
         log(f'Converted {file} -> {outpath}')
         parent = os.path.dirname(outpath)
-        os.makedirs(parent, exist_ok = True)
+        make_dir(parent)
         write_file(outpath, html)
     return 0

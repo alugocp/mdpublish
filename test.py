@@ -17,6 +17,7 @@ publisher.list_dir = lambda x: folders[x] if x in folders else []
 publisher.read_file = lambda x: [log.append([READ, x]), ''][1]
 publisher.write_file = lambda x, y: log.append([WRITE, x, y])
 publisher.is_dir = lambda x: x in folders
+publisher.make_dir = lambda x: None
 
 # Test project structures
 folders = {
@@ -121,7 +122,7 @@ class TestArgs(PublisherTest):
         self.action(1, READ)
         self.action(2, READ)
         self.wrote(3, 'dst/style.css')
-        self.printed(4, 'Using style \'default\'')
+        self.printed(4, 'Using style \'charcoal\'')
 
 # TestStyle
 # Test builtin style
@@ -142,7 +143,7 @@ class TestProject(PublisherTest):
         self.action(1, READ)
         self.action(2, READ)
         self.wrote(3, 'output/style.css')
-        self.printed(4, 'Using style \'default\'')
+        self.printed(4, 'Using style \'charcoal\'')
         self.convert(5, 'project1/one.md', 'output/one.html')
         self.convert(8, 'project1/two.md', 'output/two.html')
         self.convert(11, 'project1/three.md', 'output/three.html')
@@ -158,7 +159,7 @@ class TestProject(PublisherTest):
         self.action(1, READ)
         self.action(2, READ)
         self.wrote(3, 'output/style.css')
-        self.printed(4, 'Using style \'default\'')
+        self.printed(4, 'Using style \'charcoal\'')
         self.convert(5, 'project2/project2.md', 'output/project2.html')
 
     def testDotToDot(self):
@@ -171,7 +172,7 @@ class TestProject(PublisherTest):
         self.action(1, READ)
         self.action(2, READ)
         self.wrote(3, './style.css')
-        self.printed(4, 'Using style \'default\'')
+        self.printed(4, 'Using style \'charcoal\'')
         self.convert(5, './one.md', './one.html')
         self.convert(8, './test/two.md', './test/two.html')
 
