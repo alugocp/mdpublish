@@ -20,12 +20,6 @@ builtin_styles = {
     }
 }
 
-def log(msg):
-    """
-    This function logs the tool's progress
-    """
-    print(msg)
-
 def get_files(target: str) -> List[str]:
     """
     This function recursively grabs markdown files,
@@ -51,6 +45,34 @@ def get_files(target: str) -> List[str]:
                 files.append(path)
     return files
 
+def read_file(filepath):
+    """
+    Reads the contents of a file
+    """
+    with open(filepath, 'r', encoding = 'utf8') as file:
+        return file.read()
+
+def write_file(filepath, body):
+    """
+    Writes some content to a file
+    """
+    with open(filepath, 'w', encoding = 'utf8') as file:
+        file.write(body)
+        file.flush()
+
+def log(msg):
+    """
+    This function logs the tool's progress
+    """
+    print(msg)
+
+def print_help():
+    """
+    This function prints tool usage info
+    """
+    log('Usage: tool <src> <dst> [stylesheet]')
+    log('  src and dst should be project paths')
+
 def main(args: List[str]) -> int:
     """
     This is the tool's main function. It holds the logic
@@ -60,17 +82,15 @@ def main(args: List[str]) -> int:
     dst = args[2] if len(args) > 2 else None
     style = args[3] if len(args) > 3 else None
     if not (src and dst and re.search(PATH_REGEX, src) and re.search(PATH_REGEX, dst)):
-        log('Usage: tool <src> <dst> [stylesheet]')
-        log('  src and dst should be project paths')
+        print_help()
         return 1
     md = MarkdownIt()
     targets = get_files(src)
     log('Found 1 markdown file to convert' if len(targets) == 1 else
         f'Found {len(targets)} markdown files to convert')
-    with open('page.html', 'r', encoding = 'utf8') as file:
-        html_template = Template(file.read())
-    with open('style.css', 'r', encoding = 'utf8') as file:
-        css_template = Template(file.read())
+    relative = lambda x: os.path.join(os.path.dirname(__file__), x)
+    html_template = Template(read_file(relative('templates/page.html')))
+    css_template = Template(read_file(relative('templates/style.css')))
 
     # Copy over stylesheet (if any)
     if style:
@@ -80,10 +100,7 @@ def main(args: List[str]) -> int:
             shutil.copyfile(style, outpath)
             log(f'Stylized after {style}')
         elif style in builtin_styles:
-            with open(outpath, 'w', encoding = 'utf8') as file:
-                css = css_template.render(style = builtin_styles[style])
-                file.write(css)
-                file.flush()
+            write_file(outpath, css_template.render(style = builtin_styles[style]))
             log(f'Using style \'{style}\'')
         else:
             log(f'Unknown style \'{style}\'')
@@ -91,20 +108,17 @@ def main(args: List[str]) -> int:
 
     # Run conversion loop
     for file in targets:
-        with open(file, 'r', encoding = 'utf8') as markdown:
-            body = md.render(markdown.read())
-            root = '/'.join(file[len(src):].split('/')[:-1])
-            if root == "":
-                root = "."
-            html = html_template.render(body = body, style = style, root = root)
+        body = md.render(read_file(file))
+        root = '/'.join(file[len(src):].split('/')[:-1])
+        if root == "":
+            root = "."
+        html = html_template.render(body = body, style = style, root = root)
         outpath = re.sub('\.md$', '.html', file)
         outpath = re.sub(f'^{src}', dst, outpath)
         log(f'Converted {file} -> {outpath}')
         parent = os.path.dirname(outpath)
         os.makedirs(parent, exist_ok = True)
-        with open(outpath, 'w', encoding = 'utf8') as out:
-            out.write(html)
-            out.flush()
+        write_file(outpath, html)
     return 0
 
 if __name__ == '__main__':
