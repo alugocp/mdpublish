@@ -12,10 +12,19 @@ from gitignore_parser import parse_gitignore
 PATH_REGEX = '(\.|\.\.|[\w\s\d])(/[\w\s\d])*'
 
 builtin_styles = {
+    'default': {
+        'main': '#323232',
+        'background': '#f5f5f5',
+        'text': '#323232',
+        'link': '#0079ff',
+        'hover': '#4494ec'
+    },
     'orange': {
-        'background': '#ffa500',
-        'main': '#ffffff',
-        'text': '#000000'
+        'main': '#e79500',
+        'background': '#f5f5f5',
+        'text': '#323232',
+        'link': '#e79500',
+        'hover': '#ffb630'
     }
 }
 
@@ -83,6 +92,9 @@ def print_help() -> None:
     """
     log('Usage: tool <src> <dst> [stylesheet]')
     log('  src and dst should be project paths')
+    log('  stylesheets:')
+    for style in builtin_styles:
+        log(f'  - {style}')
 
 def main(args: List[str]) -> int:
     """
@@ -91,7 +103,7 @@ def main(args: List[str]) -> int:
     """
     src = args[1] if len(args) > 1 else None
     dst = args[2] if len(args) > 2 else None
-    style = args[3] if len(args) > 3 else None
+    style = args[3] if len(args) > 3 else 'default'
     if not (src and dst and re.search(PATH_REGEX, src) and re.search(PATH_REGEX, dst)):
         print_help()
         return 1
@@ -103,24 +115,27 @@ def main(args: List[str]) -> int:
     html_template = Template(read_file(relative('templates/page.html')))
     css_template = Template(read_file(relative('templates/style.css')))
 
-    # Copy over stylesheet (if any)
-    if style:
-        os.makedirs(dst, exist_ok = True)
-        outpath = f'{dst}/style.css'
-        if os.path.exists(style):
-            shutil.copyfile(style, outpath)
-            log(f'Stylized after {style}')
-        elif style in builtin_styles:
-            write_file(outpath, css_template.render(style = builtin_styles[style]))
-            log(f'Using style \'{style}\'')
-        else:
-            log(f'Unknown style \'{style}\'')
-            return 1
+    # Add the stylesheet
+    os.makedirs(dst, exist_ok = True)
+    outpath = f'{dst}/style.css'
+    if os.path.exists(style):
+        shutil.copyfile(style, outpath)
+        log(f'Stylized after \'{style}\'')
+    elif style in builtin_styles:
+        write_file(outpath, css_template.render(style = builtin_styles[style]))
+        log(f'Using style \'{style}\'')
+    else:
+        log(f'Unknown style \'{style}\'')
+        return 1
 
     # Run conversion loop
     for file in targets:
         body = md.render(read_file(file))
         root = '/'.join(file[len(src):].split('/')[:-1])
+        if len(root) > 0 and root[0] == '/':
+            root = root[1:]
+        if len(root) > 0 and root[-1] == '/':
+            root = root[:-1]
         if root == '':
             root = '.'
         html = html_template.render(body = body, style = style, root = root)

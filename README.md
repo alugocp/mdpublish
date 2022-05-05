@@ -3,7 +3,7 @@ This is a small tool to render markdown (`.md`) files into websites that can be 
 Use it for easily publishing your digital journals or project ideas.
 
 ## Development
-- `python index.py` - Runs the tool
+- `python __main__.py` - Runs the tool
 - `python test.py` - Runs unit tests
 - `pylint ./*.py` - Lints the code
 - `pip install -r requirements.txt` - Install dependencies
@@ -23,5 +23,5 @@ Use it for easily publishing your digital journals or project ideas.
 - [x] Read `.gitignore` files and ignore the paths within
 - [x] Allow the tool to apply a stylesheet to the generated sites
 - [x] Write a few unit tests
-- [ ] Use the tool and finalize style template
+- [x] Use the tool and finalize style template
 - [ ] Test installation and finalize this README file

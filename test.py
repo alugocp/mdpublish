@@ -116,10 +116,12 @@ class TestArgs(PublisherTest):
         Test for when all required arguments are provided
         """
         self.outcome(['src', 'dst'], True)
-        self.log(3)
+        self.log(5)
         self.printed(0, 'Found 0 markdown files to convert')
         self.action(1, READ)
         self.action(2, READ)
+        self.wrote(3, 'dst/style.css')
+        self.printed(4, 'Using style \'default\'')
 
 # TestStyle
 # Test builtin style
@@ -135,37 +137,43 @@ class TestProject(PublisherTest):
         Test coverage for folders within folders
         """
         self.outcome(['project1', 'output'], True)
-        self.log(15)
+        self.log(17)
         self.printed(0, 'Found 4 markdown files to convert')
         self.action(1, READ)
         self.action(2, READ)
-        self.convert(3, 'project1/one.md', 'output/one.html')
-        self.convert(6, 'project1/two.md', 'output/two.html')
-        self.convert(9, 'project1/three.md', 'output/three.html')
-        self.convert(12, 'project1/test/four.md', 'output/test/four.html')
+        self.wrote(3, 'output/style.css')
+        self.printed(4, 'Using style \'default\'')
+        self.convert(5, 'project1/one.md', 'output/one.html')
+        self.convert(8, 'project1/two.md', 'output/two.html')
+        self.convert(11, 'project1/three.md', 'output/three.html')
+        self.convert(14, 'project1/test/four.md', 'output/test/four.html')
 
     def testRepeatName(self):
         """
         Test coverage for when a folder and a file share a name
         """
         self.outcome(['project2', 'output'], True)
-        self.log(6)
+        self.log(8)
         self.printed(0, 'Found 1 markdown file to convert')
         self.action(1, READ)
         self.action(2, READ)
-        self.convert(3, 'project2/project2.md', 'output/project2.html')
+        self.wrote(3, 'output/style.css')
+        self.printed(4, 'Using style \'default\'')
+        self.convert(5, 'project2/project2.md', 'output/project2.html')
 
     def testDotToDot(self):
         """
         Test coverage for running the tool inside the current directory
         """
         self.outcome(['.', '.'], True)
-        self.log(9)
+        self.log(11)
         self.printed(0, 'Found 2 markdown files to convert')
         self.action(1, READ)
         self.action(2, READ)
-        self.convert(3, './one.md', './one.html')
-        self.convert(6, './test/two.md', './test/two.html')
+        self.wrote(3, './style.css')
+        self.printed(4, 'Using style \'default\'')
+        self.convert(5, './one.md', './one.html')
+        self.convert(8, './test/two.md', './test/two.html')
 
 if __name__ == '__main__':
     unittest.main()
