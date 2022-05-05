@@ -4,7 +4,6 @@ that can be easily published on the web.
 """
 import re
 import os
-import sys
 import shutil
 from typing import List
 from jinja2 import Template
