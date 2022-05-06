@@ -1,4 +1,0 @@
-gitignore_parser
-markdown-it-py
-pylint
-jinja2

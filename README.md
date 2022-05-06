@@ -3,7 +3,7 @@ This is a small tool to render markdown (`.md`) files into websites that can be 
 Use it for easily publishing your digital journals or project ideas.
 
 ## Installation
-To install this package from GitHub, simply run the following:
+To install this package, simply run the following:
 ```bash
 pip install mdpublish
 ```
@@ -21,7 +21,6 @@ The stylesheet defaults to `charcoal` if none is provided from the command line.
 
 ## Development
 These commands are to be run from within this directory for development purposes:
-- `python -m pip install -r requirements.txt` - Install dependencies
 - `python -m pylint ./*.py` - Lints the code
 - `python __main__.py` - Runs the tool
 - `python test.py` - Runs unit tests
