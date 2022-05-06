@@ -3,7 +3,7 @@ This file contains test coverage for the tool
 """
 from typing import List
 import unittest
-import publisher
+import mdpublish
 PRINT = 0
 PRINT_HELP = 1
 WRITE = 2
@@ -11,13 +11,13 @@ READ = 3
 log = []
 
 # Override tool methods
-publisher.log = lambda x: log.append([PRINT, x])
-publisher.print_help = lambda: log.append([PRINT_HELP])
-publisher.list_dir = lambda x: folders[x] if x in folders else []
-publisher.read_file = lambda x: [log.append([READ, x]), ''][1]
-publisher.write_file = lambda x, y: log.append([WRITE, x, y])
-publisher.is_dir = lambda x: x in folders
-publisher.make_dir = lambda x: None
+mdpublish.log = lambda x: log.append([PRINT, x])
+mdpublish.print_help = lambda: log.append([PRINT_HELP])
+mdpublish.list_dir = lambda x: folders[x] if x in folders else []
+mdpublish.read_file = lambda x: [log.append([READ, x]), ''][1]
+mdpublish.write_file = lambda x, y: log.append([WRITE, x, y])
+mdpublish.is_dir = lambda x: x in folders
+mdpublish.make_dir = lambda x: None
 
 # Test project structures
 folders = {
@@ -33,9 +33,9 @@ def convert(args: List[str]) -> int:
     This function mocks the tool being run from the terminal
     """
     log.clear()
-    return publisher.main(args)
+    return mdpublish.main(args)
 
-class PublisherTest(unittest.TestCase):
+class MdPublishTest(unittest.TestCase):
     """
     A helper class for testing this tool
     """
@@ -91,7 +91,7 @@ class PublisherTest(unittest.TestCase):
         self.printed(index + 1, f'Converted {src} -> {dst}')
         self.wrote(index + 2, dst)
 
-class TestArgs(PublisherTest):
+class TestArgs(MdPublishTest):
     """
     Tests for provided tool arguments
     """
@@ -124,12 +124,7 @@ class TestArgs(PublisherTest):
         self.wrote(3, 'dst/style.css')
         self.printed(4, 'Using style \'charcoal\'')
 
-# TestStyle
-# Test builtin style
-# Test provided style file
-# Test error with nonexistent style file
-
-class TestProject(PublisherTest):
+class TestProject(MdPublishTest):
     """
     Tests for various project directory setups
     """

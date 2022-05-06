@@ -1,17 +1,17 @@
-# Markdown Publisher
+# MdPublish
 This is a small tool to render markdown (`.md`) files into websites that can be hosted online.
 Use it for easily publishing your digital journals or project ideas.
 
 ## Installation
 To install this package from GitHub, simply run the following:
 ```bash
-pip install -e git+https://github.com/alugocp/publisher
+pip install mdpublish
 ```
 
 ## Usage
 Here is how you run this tool:
 ```bash
-python -m publisher <src> <dst> [style]
+python -m mdpublish <src> <dst> [style]
 ```
 This command will recursively convert markdown (`.md`) files from an input directory into a presentable website in an output directory.
 The parameters `src` and `dst` are the input and output directories, respectively.
