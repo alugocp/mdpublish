@@ -21,6 +21,6 @@ The stylesheet defaults to `charcoal` if none is provided from the command line.
 
 ## Development
 These commands are to be run from within this directory for development purposes:
-- `python -m pylint ./*.py` - Lints the code
-- `python __main__.py` - Runs the tool
-- `python test.py` - Runs unit tests
+- `python -m pylint ./mdpublish/*.py` - Lints the code
+- `python mdpublish/__main__.py` - Runs the tool
+- `python mdpublish/test.py` - Runs unit tests

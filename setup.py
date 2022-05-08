@@ -1,15 +1,17 @@
 from distutils.core import setup
 setup(
     name = 'mdpublish',
-    packages = [],
-    version = '0.1.0',
-    license = 'MIT',
+    packages = ['mdpublish'],
+    version = '0.1.1',
+    license = 'GPLv3',
     description = 'This tool creates pretty websites from markdown journal projects',
     author = 'Alex Lugo',
     author_email = 'alugocp@gmail.com',
     url = 'https://github.com/alugocp/mdpublish',
-    download_url = 'https://github.com/alugocp/mdpublish/archive/v_01.tar.gz',
+    download_url = 'https://github.com/alugocp/mdpublish/archive/v_0_1_1.tar.gz',
     keywords = ['markdown', 'readme', 'publish'],
+    package_data = {'mdpublish': ['templates/*']},
+    include_package_data = True,
     install_requires = [
         'gitignore_parser',
         'markdown-it-py',
